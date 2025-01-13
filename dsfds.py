@@ -46,9 +46,8 @@ for file_name in os.listdir(folder_path):
                 if isinstance(b_initial, (int, float)):
                     b_initial = f"{b_initial:.2f}"
 
-            # Create title for the file
-            title = f"{file_name}\nB_FINAL: {b_final}, B_INITIAL: {b_initial}"
-            file_titles.append(title)
+                #title = f"{file_name}\nB_FINAL: {b_final}, B_INITIAL: {b_initial}"
+                #file_titles.append(title)
 
 # Plot all images in a grid of subplots
 num_files = len(file_data)
@@ -69,8 +68,6 @@ for i, (data, title) in enumerate(zip(file_data, file_titles)):
 for j in range(i + 1, len(axes)):
     axes[j].axis('off')
 # Add a single block title for the entire grid
-if green_laser_setpoint is not None:
-    fig.suptitle(f"GREEN_LASER_SET_POINT: {green_laser_setpoint}", fontsize=16)
-print(green_laser_setpoint)
+
 plt.tight_layout()
 plt.show()

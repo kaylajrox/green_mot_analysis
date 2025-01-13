@@ -4,10 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Define the folder path containing the HDF5 files
-folder_path = "S:\\Experiments\\Yb171_MOT_Tweezer_trap\\green_mot_search_camera\\2025\\01\\13\\807_95"
+folder_path = "S:\\Experiments\\Yb171_MOT_Tweezer_trap\\green_mot_search_camera\\2025\\01\\13\\807_65"
 
-fixed_bounds = (500, 760, 880, 1350)  # Example: (top, left, bottom, right)
-cropped_data = []  # To store cropped frame data
 # Collect data for plotting
 file_data = []  # To store frame data for each file
 file_titles = []  # To store titles with B_FINAL and B_INITIAL values
@@ -25,12 +23,6 @@ for file_name in os.listdir(folder_path):
                 frame_data = h5_file[dataset_path][:]
                 file_data.append(frame_data)
 
-                # Apply fixed bounds for cropping
-                top, left, bottom, right = fixed_bounds
-                cropped_frame = frame_data[top:bottom, left:right]
-                cropped_data.append(cropped_frame)
-                file_titles.append(file_name)  # Append the file name to titles
-
             # Extract B_FINAL and B_INITIAL values from globals
             b_final = None
             b_initial = None
@@ -38,13 +30,6 @@ for file_name in os.listdir(folder_path):
                 globals_group = h5_file['globals']
                 b_final = globals_group.attrs.get('B_FINAL', 'N/A')
                 b_initial = globals_group.attrs.get('B_INITIAL', 'N/A')
-                green_laser_setpoint = globals_group.attrs.get('GREEN_LASER_SET_POINT', 'N/A')
-
-                # Format to 2 decimal places if numeric
-                if isinstance(b_final, (int, float)):
-                    b_final = f"{b_final:.2f}"
-                if isinstance(b_initial, (int, float)):
-                    b_initial = f"{b_initial:.2f}"
 
             # Create title for the file
             title = f"{file_name}\nB_FINAL: {b_final}, B_INITIAL: {b_initial}"
@@ -68,9 +53,6 @@ for i, (data, title) in enumerate(zip(file_data, file_titles)):
 # Hide unused subplots
 for j in range(i + 1, len(axes)):
     axes[j].axis('off')
-# Add a single block title for the entire grid
-if green_laser_setpoint is not None:
-    fig.suptitle(f"GREEN_LASER_SET_POINT: {green_laser_setpoint}", fontsize=16)
-print(green_laser_setpoint)
+
 plt.tight_layout()
 plt.show()
