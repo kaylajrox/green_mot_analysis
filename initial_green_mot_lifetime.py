@@ -9,7 +9,7 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 # Specify the main directory where subfolders are located
-main_folder_path = "data/20250117_first_data"  # Replace with your directory path
+main_folder_path = "data/20250110_first_data"  # Replace with your directory path
 image_dataset_path = 'images/cam1/after ramp/frame'
 
 # List to store the file paths, folder names, and image data
