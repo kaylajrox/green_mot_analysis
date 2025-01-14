@@ -25,6 +25,9 @@ for file_name in os.listdir(folder_path):
     if file_name.endswith(".h5"):  # Check for .h5 extension
         file_path = os.path.join(folder_path, file_name)
 
+        '''
+        import and crop the image data
+        '''
         with h5py.File(file_path, "r") as h5_file:
             # Extract frame data
             dataset_path = 'images/cam1/after ramp/frame'
