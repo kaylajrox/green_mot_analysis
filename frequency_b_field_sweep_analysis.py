@@ -1,12 +1,20 @@
 import h5py
 import os
+import matplotlib
+matplotlib.use('TkAgg')  # Use TkAgg as the backend
 import matplotlib.pyplot as plt
 import numpy as np
 
 # Define the folder path containing the HDF5 files
 folder_path = "S:\\Experiments\\Yb171_MOT_Tweezer_trap\\green_mot_search_camera\\2025\\01\\13\\807_95"
 
-fixed_bounds = (500, 760, 880, 1350)  # Example: (top, left, bottom, right)
+# Change cropping region of photos
+top = 550
+bottom = 850
+left = 910
+right = 1310
+
+fixed_bounds = (top, left, bottom, right)  # Example: (top, left, bottom, right)
 cropped_data = []  # To store cropped frame data
 # Collect data for plotting
 file_data = []  # To store frame data for each file
@@ -23,7 +31,6 @@ for file_name in os.listdir(folder_path):
             frame_data = None
             if dataset_path in h5_file:
                 frame_data = h5_file[dataset_path][:]
-                file_data.append(frame_data)
 
                 # Apply fixed bounds for cropping
                 top, left, bottom, right = fixed_bounds
@@ -51,7 +58,7 @@ for file_name in os.listdir(folder_path):
             file_titles.append(title)
 
 # Plot all images in a grid of subplots
-num_files = len(file_data)
+num_files = len(cropped_data)
 cols = 3  # Number of columns in the grid
 rows = (num_files + cols - 1) // cols  # Calculate rows to fit all files
 
@@ -60,17 +67,21 @@ fig, axes = plt.subplots(rows, cols, figsize=(15, 5 * rows))
 # Flatten axes for easy indexing
 axes = axes.flatten()
 
-for i, (data, title) in enumerate(zip(file_data, file_titles)):
+# Set the laser setpoint for the general title
+if 'green_laser_setpoint' in locals():
+    green_laser_setpoint = f"GREEN_LASER_SET_POINT: {green_laser_setpoint}"
+
+for i, (data, title) in enumerate(zip(cropped_data, file_titles)):
     axes[i].imshow(data, cmap='gray')
-    axes[i].set_title(title, fontsize=10)
+    axes[i].set_title(title, fontsize=8)
     axes[i].axis('off')  # Hide axes for a cleaner look
 
 # Hide unused subplots
 for j in range(i + 1, len(axes)):
     axes[j].axis('off')
+
 # Add a single block title for the entire grid
-if green_laser_setpoint is not None:
-    fig.suptitle(f"GREEN_LASER_SET_POINT: {green_laser_setpoint}", fontsize=16)
-print(green_laser_setpoint)
+if 'green_laser_setpoint' in locals():
+    fig.suptitle(green_laser_setpoint, fontsize=16)
 plt.tight_layout()
 plt.show()
