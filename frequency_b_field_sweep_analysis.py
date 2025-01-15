@@ -1,3 +1,9 @@
+'''
+Processing images in h5 files which are all within the same folder
+
+'''
+
+
 import h5py
 import os
 import matplotlib
@@ -6,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Define the folder path containing the HDF5 files
-folder_path = "S:\\Experiments\\Yb171_MOT_Tweezer_trap\\green_mot_search_camera\\2025\\01\\13\\807_95"
+folder_path = "data/20250113_initial_b_freq_parameter_sweep/807_35"
 
 # Change cropping region of photos
 top = 550
@@ -22,6 +28,7 @@ file_titles = []  # To store titles with B_FINAL and B_INITIAL values
 
 # Iterate through all HDF5 files in the folder
 for file_name in os.listdir(folder_path):
+    print(f" working with filename: {file_name}")
     if file_name.endswith(".h5"):  # Check for .h5 extension
         file_path = os.path.join(folder_path, file_name)
 
@@ -29,6 +36,7 @@ for file_name in os.listdir(folder_path):
         import and crop the image data
         '''
         with h5py.File(file_path, "r") as h5_file:
+            print((f"filepath: {file_path}"))
             # Extract frame data
             dataset_path = 'images/cam1/after ramp/frame'
             frame_data = None
@@ -61,8 +69,12 @@ for file_name in os.listdir(folder_path):
             file_titles.append(title)
 
 # Plot all images in a grid of subplots
-num_files = len(cropped_data)
 cols = 3  # Number of columns in the grid
+num_files = len(cropped_data)  # Ensure num_files is calculated from the actual data
+if num_files == 0:
+    print("No data available for plotting. Could be h5 file formatting not set up correctly, this python script requires all h5 files to be in the same folder, not separate ones so check the folder structure of your shot files")
+    exit()  # Exit or handle as needed
+
 rows = (num_files + cols - 1) // cols  # Calculate rows to fit all files
 
 fig, axes = plt.subplots(rows, cols, figsize=(15, 5 * rows))
@@ -86,5 +98,6 @@ for j in range(i + 1, len(axes)):
 # Add a single block title for the entire grid
 if 'green_laser_setpoint' in locals():
     fig.suptitle(green_laser_setpoint, fontsize=16)
+
 plt.tight_layout()
 plt.show()
