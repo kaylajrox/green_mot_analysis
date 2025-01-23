@@ -9,9 +9,14 @@ import os
 import cv2  # OpenCV for video creation
 import matplotlib.pyplot as plt
 
+# USER DEFINE PARAMETERS HERE ONLY
 # Define the cropping region
-top, bottom = 350, 1050  # Vertical crop range
-left, right = 950, 1650  # Horizontal crop range
+top = 350  # vertical height start (top edge)
+bottom = 1050  # vertical height end (bottom edge)
+left = 950  # horizontal width start point (left edge)
+right = 1650  # horizontal width end point (right edge)
+
+#=========================================================================
 
 file_titles = []
 frame_list = []  # Store frames for the video

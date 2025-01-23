@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import re  # For natural sorting
 
 
-# User defined parameters
+# USER DEFINE PARAMETERS HERE ONLY
 
 # Define the cropping region
 top = 350  # vertical height start (top edge)

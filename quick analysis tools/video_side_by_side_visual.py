@@ -14,14 +14,25 @@ import cv2
 import matplotlib.pyplot as plt
 import re
 
+# USER DEFINE PARAMETERS HERE ONLY
+
 # Define the cropping region
-top, bottom = 350, 1050
-left, right = 950, 1650
+top = 350  # vertical height start (top edge)
+bottom = 1050  # vertical height end (bottom edge)
+left = 950  # horizontal width start point (left edge)
+right = 1650  # horizontal width end point (right edge)
+
+origin_data_folder1 = '20250123TOF_withBlueMOTBeams'
+file_indata_folder1 = 'WithRamp_9V_2.7V_1ms_step_807.75MHz'
+origin_data_folder2 = '20250123TOF_withBlueMOTBeams'
+file_indata_folder2 = 'WithRamp_9V_4V_1ms_step_807.75MHz'
+
+#=========================================================================
 
 # Define paths for two different data folders
 base_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'green_mot_analysis'))
-folder1 = os.path.join(base_directory, 'data', '20250123TOF_withBlueMOTBeams', 'WithRamp_9V_2.7V_1ms_step_807.75MHz')
-folder2 = os.path.join(base_directory, 'data', '20250123TOF_withBlueMOTBeams', 'WithRamp_9V_4V_1ms_step_807.75MHz')
+folder1 = os.path.join(base_directory, 'data', origin_data_folder1, file_indata_folder1)
+folder2 = os.path.join(base_directory, 'data',origin_data_folder2, file_indata_folder2)
 
 
 def parse_experiment_label(folder_name):
